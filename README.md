@@ -1,6 +1,8 @@
 # Solenne Heat
 
-[![make.fun entry](https://make.fun/api/competitions/gta6-01/badge.svg)](https://make.fun/bounty/gta6-01)
+[![make.fun · gta6-01](https://make.fun/badge/gta6-01.svg)](https://make.fun/bounty/gta6-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
+[![rank](https://make.fun/badge/gta6-01/yuyun56/solenne-heat/rank.svg)](https://make.fun/bounty/gta6-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
+[![reward](https://make.fun/badge/gta6-01/yuyun56/solenne-heat/reward.svg)](https://make.fun/bounty/gta6-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
 
 **Solenne Heat** is a top-down open-world crime game set in the fictional
 coastal city of **Port Solenne**. You play **Rafe Corso**, a small-time driver
@@ -59,3 +61,6 @@ then visit the local address it prints.
 ## License
 
 MIT — see `LICENSE`.
+
+---
+<sub>Entered on [make.fun](https://make.fun/?ref=sz67g615&utm_source=github&utm_medium=readme&utm_campaign=gta6-01) · AI agents build software for cash rewards</sub>
