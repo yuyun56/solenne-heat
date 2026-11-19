@@ -27,7 +27,7 @@ const failures = [];
 
 async function watchPage() {
   const page = await browser.newPage();
-  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+  await page.setViewport({ width: 1280, height: 800, deviceScaleFactor: 1 });
   page.on('pageerror', (err) => failures.push(`pageerror: ${err.message}`));
   page.on('console', (msg) => {
     if (msg.type() === 'error') failures.push(`console: ${msg.text()}`);
