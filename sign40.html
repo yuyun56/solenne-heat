@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign make.fun entry — World News 25 Nov</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 16px; background: #111; color: #eee; }
+  h1 { font-size: 18px; }
+  textarea { width: 100%; box-sizing: border-box; background: #1c1c1e; color: #eee; border: 1px solid #444; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 12px; }
+  button { width: 100%; padding: 14px; margin-top: 12px; font-size: 16px; border: 0; border-radius: 10px; background: #f5c518; color: #111; font-weight: 700; }
+  button:disabled { opacity: .5; }
+  #out { word-break: break-all; background: #1c1c1e; border: 1px solid #444; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 12px; min-height: 40px; margin-top: 12px; }
+  #status { margin-top: 10px; font-size: 14px; color: #bbb; }
+  .small { font-size: 13px; color: #999; }
+</style>
+</head>
+<body>
+<h1>Tandatangani pesan entri make.fun</h1>
+<p class="small">Buka halaman ini di browser dalam aplikasi wallet Solana-mu (wallet FQdQ…LtKJ). Ini tanda tangan pesan saja — tidak ada dana yang bergerak dan tidak ada biaya.</p>
+<textarea id="msg" rows="10">make.fun entry v1
+Domain: make.fun
+Competition: news-image-20261125
+Repo: https://github.com/yuyun56/world-news-25nov
+Commit: 4e508d1d53866e5389b397262719419fe6dfd741
+Transcripts: 0c5cfe5ae831a19d279ebb1d1080b555e2b402b4f6172f65bb1c4d97c83eb203
+Wallet: FQdQ5dj4rVNcBEWNfbSWbWQo295vSr38AcBXvqu6LtKJ
+Nonce: c76f37a7e8d9908169322bfc56e7a1ba
+Issued At: 2026-11-25T12:58:21.000Z</textarea>
+<button id="sign">Hubungkan &amp; Tandatangani</button>
+<div id="status"></div>
+<div id="out">Signature akan muncul di sini.</div>
+<button id="copy" disabled>Salin signature</button>
+<script>
+const B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function base58(bytes) {
+  let zeros = 0; while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
+  let n = Array.from(bytes); let out = '';
+  let start = zeros;
+  while (start < n.length) {
+    let rem = 0;
+    for (let i = start; i < n.length; i++) { const cur = rem * 256 + n[i]; n[i] = Math.floor(cur / 58); rem = cur % 58; }
+    out = B58[rem] + out;
+    while (start < n.length && n[start] === 0) start++;
+  }
+  return '1'.repeat(zeros) + out;
+}
+const status = document.getElementById('status');
+const out = document.getElementById('out');
+document.getElementById('sign').addEventListener('click', async () => {
+  try {
+    const provider = (window.okxwallet && window.okxwallet.solana) || window.solana;
+    if (!provider) { status.textContent = 'Wallet Solana tidak terdeteksi. Buka halaman ini dari browser di dalam aplikasi OKX Wallet / Phantom.'; return; }
+    status.textContent = 'Menghubungkan wallet…';
+    const conn = await provider.connect();
+    const pub = (conn && conn.publicKey) ? conn.publicKey.toString() : (provider.publicKey ? provider.publicKey.toString() : '');
+    status.textContent = 'Terhubung: ' + pub + ' — menyetujui tanda tangan di wallet…';
+    const message = document.getElementById('msg').value;
+    const encoded = new TextEncoder().encode(message);
+    const res = await provider.signMessage(encoded, 'utf8');
+    const sig = res && res.signature ? res.signature : res;
+    const text = base58(sig instanceof Uint8Array ? sig : new Uint8Array(sig));
+    out.textContent = text;
+    document.getElementById('copy').disabled = false;
+    status.textContent = 'Selesai. Salin signature di atas dan kirimkan ke Ember.';
+  } catch (e) {
+    status.textContent = 'Gagal/dibatalkan: ' + (e && e.message ? e.message : e);
+  }
+});
+document.getElementById('copy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(out.textContent); status.textContent = 'Signature tersalin.'; }
+  catch (e) { status.textContent = 'Salin manual: tekan lama pada signature.'; }
+});
+</script>
+</body>
+</html>
